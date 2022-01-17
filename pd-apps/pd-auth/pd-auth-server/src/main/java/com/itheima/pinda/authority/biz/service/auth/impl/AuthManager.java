@@ -98,7 +98,7 @@ public class AuthManager {
 
     //为当前登录用户生成对应的jwt令牌
     public Token generateUserToken(User user){
-        JwtUserInfo jwtUserInfo = new JwtUserInfo(user.getId(),user.getAccount(),user.getName(),user.getOrgId(),user.getStationId());
+        JwtUserInfo jwtUserInfo = new JwtUserInfo(user.getId(),user.getAccount(),user.getName(),Long.valueOf(user.getOrgId()),Long.valueOf(user.getStationId()));
         Token token = jwtTokenServerUtils.generateUserToken(jwtUserInfo, null);
         return token;
     }

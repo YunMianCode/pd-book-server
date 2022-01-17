@@ -7,4 +7,12 @@
         <include refid="Base_Column_List"/>
         FROM pd_core_station s ${ew.customSqlSegment}
     </select>
+
+    <select id="getInfoByOrgId" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM pd_core_station
+        where org_id = #{id}
+    </select>
+
 </mapper>

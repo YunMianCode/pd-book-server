@@ -61,7 +61,7 @@ public class OrgController extends BaseController {
      * 查询组织
      */
     @ApiOperation(value = "查询组织", notes = "查询组织")
-    @GetMapping("/{id}")
+    @RequestMapping("/{id}")
     @SysLog("查询组织")
     public R<Org> get(@PathVariable Long id) {
         return this.success(this.orgService.getById(id));

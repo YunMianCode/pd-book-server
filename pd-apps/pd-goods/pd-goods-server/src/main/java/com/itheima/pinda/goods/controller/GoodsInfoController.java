@@ -51,7 +51,6 @@ public class GoodsInfoController extends BaseController {
     public R<IPage<GoodsInfo>> page(GoodsInfoPageDTO data) {
         Page<GoodsInfo> page = getPage();
         LbqWrapper<GoodsInfo> wrapper = Wraps.lbQ();
-
         wrapper.like(GoodsInfo::getName, data.getName())
                 .like(GoodsInfo::getCode, data.getCode())
                 .eq(GoodsInfo::getBarCode, data.getBarCode())

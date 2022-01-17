@@ -78,7 +78,7 @@ public class ResourceController extends BaseController {
     @ApiOperation(value = "新增资源", notes = "新增资源不为空的字段")
     @PostMapping
     @SysLog("新增资源")
-    public R<Resource> save(@RequestBody @Validated ResourceSaveDTO data) {
+    public R<Resource> save(@RequestBody ResourceSaveDTO data) {
         Resource resource = dozer.map(data, Resource.class);
         resourceService.save(resource);
         return success(resource);

@@ -10,6 +10,8 @@ import com.itheima.pinda.authority.entity.core.Station;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * <p>
  * Mapper 接口
@@ -27,4 +29,6 @@ public interface StationMapper extends BaseMapper<Station> {
      * @return
      */
     IPage<Station> findStationPage(Page page, @Param(Constants.WRAPPER) Wrapper<Station> queryWrapper);
+
+    List<Station> getInfoByOrgId(Long id);
 }

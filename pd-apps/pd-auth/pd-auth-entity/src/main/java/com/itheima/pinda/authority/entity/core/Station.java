@@ -53,7 +53,7 @@ public class Station extends Entity<Long> {
      */
     @ApiModelProperty(value = "组织ID")
     @TableField("org_id")
-    private Long orgId;
+    private String orgId;
 
     /**
      * 状态
@@ -72,7 +72,7 @@ public class Station extends Entity<Long> {
 
     @Builder
     public Station(Long id, LocalDateTime createTime, Long createUser, LocalDateTime updateTime, Long updateUser,
-                   String name, Long orgId, Boolean status, String describe) {
+                   String name, String orgId, Boolean status, String describe) {
         this.id = id;
         this.createTime = createTime;
         this.createUser = createUser;

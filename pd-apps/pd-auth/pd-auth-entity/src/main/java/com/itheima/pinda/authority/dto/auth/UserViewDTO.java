@@ -1,44 +1,28 @@
-package com.itheima.pinda.authority.entity.auth;
-
-import java.time.LocalDateTime;
-
-import javax.validation.constraints.NotEmpty;
+package com.itheima.pinda.authority.dto.auth;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.itheima.pinda.authority.enumeration.auth.Sex;
 import com.itheima.pinda.base.entity.Entity;
-
-import com.itheima.pinda.base.entity.Entity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.Length;
 
+import javax.validation.constraints.NotEmpty;
+import java.time.LocalDateTime;
+
 import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
 
-/**
- * <p>
- * 实体类
- * 用户
- * </p>
- *
- */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(callSuper = true)
-@EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 @TableName("pd_auth_user")
 @ApiModel(value = "User", description = "用户")
-public class User extends Entity<Long> {
+public class UserViewDTO{
 
     private static final long serialVersionUID = 1L;
 
@@ -66,7 +50,15 @@ public class User extends Entity<Long> {
      */
     @ApiModelProperty(value = "组织ID")
     @TableField("org_id")
-    private String orgId;
+    private Long orgId;
+
+    /**
+     * 组织ID
+     * #pd_core_org
+     */
+    @ApiModelProperty(value = "组织名称")
+    @TableField("org_name")
+    private String orgName;
 
     /**
      * 岗位ID
@@ -74,7 +66,15 @@ public class User extends Entity<Long> {
      */
     @ApiModelProperty(value = "岗位ID")
     @TableField("station_id")
-    private String stationId;
+    private Long stationId;
+
+    /**
+     * 岗位ID
+     * #pd_core_station
+     */
+    @ApiModelProperty(value = "岗位名称")
+    @TableField("station_name")
+    private String stationName;
 
     /**
      * 邮箱
@@ -161,32 +161,5 @@ public class User extends Entity<Long> {
     @TableField("last_login_time")
     private LocalDateTime lastLoginTime;
 
-
-    @Builder
-    public User(Long id, Long createUser, LocalDateTime createTime, Long updateUser, LocalDateTime updateTime,
-                String account, String name, String orgId, String stationId, String email,
-                String mobile, Sex sex, Boolean status, String avatar, String workDescribe, LocalDateTime passwordErrorLastTime,
-                Integer passwordErrorNum, LocalDateTime passwordExpireTime, String password, LocalDateTime lastLoginTime) {
-        this.id = id;
-        this.createUser = createUser;
-        this.createTime = createTime;
-        this.updateUser = updateUser;
-        this.updateTime = updateTime;
-        this.account = account;
-        this.name = name;
-        this.orgId = orgId;
-        this.stationId = stationId;
-        this.email = email;
-        this.mobile = mobile;
-        this.sex = sex;
-        this.status = status;
-        this.avatar = avatar;
-        this.workDescribe = workDescribe;
-        this.passwordErrorLastTime = passwordErrorLastTime;
-        this.passwordErrorNum = passwordErrorNum;
-        this.passwordExpireTime = passwordExpireTime;
-        this.password = password;
-        this.lastLoginTime = lastLoginTime;
-    }
 
 }

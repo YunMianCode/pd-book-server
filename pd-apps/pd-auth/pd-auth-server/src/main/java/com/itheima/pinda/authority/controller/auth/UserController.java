@@ -8,6 +8,7 @@ import com.itheima.pinda.authority.biz.service.auth.RoleService;
 import com.itheima.pinda.authority.biz.service.auth.UserService;
 import com.itheima.pinda.authority.biz.service.core.OrgService;
 import com.itheima.pinda.authority.biz.service.core.StationService;
+import com.itheima.pinda.authority.entity.core.Station;
 import com.itheima.pinda.base.BaseController;
 import com.itheima.pinda.base.R;
 import com.itheima.pinda.base.entity.SuperEntity;
@@ -28,7 +29,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 /**
@@ -82,9 +86,27 @@ public class UserController extends BaseController {
                 .eq(User::getSex, userPage.getSex())
                 .eq(User::getStatus, userPage.getStatus())
                 .orderByDesc(User::getId);
-//        userService.page(page, wrapper);
-
         userService.findPage(page, wrapper);
+        List<User> records = page.getRecords();
+        List<User> newList = new ArrayList<>();
+        Iterator<User> iterator = records.iterator();
+        while (iterator.hasNext()){
+            User tmp = iterator.next();
+            String orgId = tmp.getOrgId();
+            Org org = orgService.getById(orgId);
+            String orgId1 = tmp.getOrgId();
+            tmp.setOrgId(org.getName() +"-"+orgId1);
+            String stationId = tmp.getStationId();
+            Station station = stationService.getById(stationId);
+            String stationId1 = tmp.getStationId();
+            tmp.setStationId(station.getName() +"-"+stationId1);
+            newList.add(tmp);
+        }
+        page.setRecords(newList);
+//        page.getRecords().stream().forEach(record -> {
+//            record.setOrgId(orgService.getById(record.getOrgId()).getName());
+//            record.setStationId(stationService.getById(record.getStationId()).getName());
+//        });
         return success(page);
     }
 

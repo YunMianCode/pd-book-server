@@ -42,11 +42,23 @@ public class UserPageDTO {
     @ApiModelProperty(value = "组织ID")
     private Long orgId;
     /**
+     * 组织ID
+     * #pd_core_org
+     */
+    @ApiModelProperty(value = "组织名称")
+    private Long orgName;
+    /**
      * 岗位ID
      * #pd_core_station
      */
     @ApiModelProperty(value = "岗位ID")
     private Long stationId;
+    /**
+     * 岗位ID
+     * #pd_core_station
+     */
+    @ApiModelProperty(value = "岗位名称")
+    private Long stationName;
     /**
      * 手机
      */

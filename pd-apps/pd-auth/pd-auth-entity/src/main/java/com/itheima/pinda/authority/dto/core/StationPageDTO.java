@@ -44,7 +44,7 @@ public class StationPageDTO implements Serializable {
      * #pd_core_org
      */
     @ApiModelProperty(value = "组织ID")
-    private Long orgId;
+    private String orgId;
     /**
      * 状态
      */

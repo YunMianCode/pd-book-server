@@ -2,6 +2,7 @@ package com.itheima.pinda.authority.controller.core;
 import java.util.List;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.itheima.pinda.authority.biz.service.core.OrgService;
 import com.itheima.pinda.authority.biz.service.core.StationService;
 import com.itheima.pinda.authority.dto.core.StationPageDTO;
 import com.itheima.pinda.authority.dto.core.StationSaveDTO;
@@ -41,6 +42,8 @@ public class StationController extends BaseController {
     private StationService stationService;
     @Autowired
     private DozerUtils dozer;
+    @Autowired
+    private OrgService orgService;
     /**
      * 分页查询岗位
      */
@@ -54,6 +57,11 @@ public class StationController extends BaseController {
     public R<IPage<Station>> page(StationPageDTO data) {
         Page<Station> page = getPage();
         stationService.findStationPage(page, data);
+        List<Station> records = page.getRecords();
+        records.stream().forEach(record ->{
+            String orgId = record.getOrgId();
+            record.setOrgId(orgService.getById(orgId).getName());
+        });
         return success(page);
     }
 
@@ -101,4 +109,23 @@ public class StationController extends BaseController {
         stationService.removeByIds(ids);
         return success();
     }
+
+    /**
+     * 根据部门Id获取岗位信息
+     */
+    @ApiOperation(value = "获取某部门的岗位信息", notes = "根据部门Id获取岗位信息")
+    @SysLog("根据某部门获取岗位信息")
+    @GetMapping("/list")
+    public R<List<Station>> getStationByOrgId(@RequestParam("orgId") String id) {
+        log.info(id);
+        String ids = "";
+        if(id.contains("-")){
+            ids = id.split("-")[1];
+        }else{
+            ids = id;
+        }
+        List<Station> station = stationService.getInfoByOrgId(Long.valueOf(ids));
+        return success(station);
+    }
+
 }

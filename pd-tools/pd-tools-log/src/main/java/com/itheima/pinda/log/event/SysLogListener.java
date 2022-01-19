@@ -23,7 +23,7 @@ public class SysLogListener {
     @EventListener(SysLogEvent.class)
     public void saveSysLog(SysLogEvent event) {
         OptLogDTO optLog = (OptLogDTO) event.getSource();
-        //BaseContextHandler.setDatabase(database);
+//        BaseContextHandler.setDatabase(database);
         consumer.accept(optLog);
     }
 }

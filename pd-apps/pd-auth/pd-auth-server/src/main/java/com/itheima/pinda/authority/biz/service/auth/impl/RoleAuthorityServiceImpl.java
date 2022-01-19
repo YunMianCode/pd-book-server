@@ -56,7 +56,7 @@ public class RoleAuthorityServiceImpl extends ServiceImpl<RoleAuthorityMapper, R
 
     @Override
     public boolean saveRoleAuthority(RoleAuthoritySaveDTO dto) {
-        //删除角色和资源的关联
+//        删除角色和资源的关联
         super.remove(Wraps.<RoleAuthority>lbQ().eq(RoleAuthority::getRoleId, dto.getRoleId()));
 
         List<RoleAuthority> list = new ArrayList<>();
@@ -93,7 +93,7 @@ public class RoleAuthorityServiceImpl extends ServiceImpl<RoleAuthorityMapper, R
         }
         super.saveBatch(list);
 
-        // 清理
+//         清理
         List<Long> userIdList = userRoleService.listObjs(Wraps.<UserRole>lbQ().select(UserRole::getUserId).eq(UserRole::getRoleId, dto.getRoleId()),
                 (userId) -> NumberHelper.longValueOf0(userId));
         userIdList.stream().collect(Collectors.toSet()).forEach((userId) -> {

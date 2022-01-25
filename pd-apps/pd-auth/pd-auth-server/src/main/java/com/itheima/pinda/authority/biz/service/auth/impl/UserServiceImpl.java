@@ -1,14 +1,24 @@
 package com.itheima.pinda.authority.biz.service.auth.impl;
+
 import java.time.LocalDateTime;
 import java.util.List;
+
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.service.additional.query.impl.LambdaQueryChainWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.itheima.pinda.authority.biz.dao.auth.UserMapper;
 import com.itheima.pinda.authority.biz.service.auth.UserRoleService;
 import com.itheima.pinda.authority.biz.service.auth.UserService;
+import com.itheima.pinda.authority.biz.service.core.OrgService;
+import com.itheima.pinda.authority.biz.service.core.StationService;
+import com.itheima.pinda.authority.dto.auth.UserExportDTO;
+import com.itheima.pinda.authority.dto.auth.UserPageDTO;
 import com.itheima.pinda.authority.dto.auth.UserUpdatePasswordDTO;
 import com.itheima.pinda.authority.entity.auth.User;
 import com.itheima.pinda.authority.entity.auth.UserRole;
+import com.itheima.pinda.authority.entity.core.Org;
+import com.itheima.pinda.authority.entity.core.Station;
 import com.itheima.pinda.database.mybatis.conditions.Wraps;
 import com.itheima.pinda.database.mybatis.conditions.query.LbqWrapper;
 import com.itheima.pinda.utils.BizAssert;
@@ -17,6 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 /**
  * 业务实现类
  */
@@ -25,6 +36,12 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
     @Autowired
     private UserRoleService userRoleService;
+    @Autowired
+    private OrgService orgService;
+    @Autowired
+    private StationService stationService;
+    @Autowired
+    private UserService userService;
 
     @Override
     public IPage<User> findPage(IPage<User> page, LbqWrapper<User> wrapper) {
@@ -34,6 +51,20 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     public int resetPassErrorNum(Long id) {
         return baseMapper.resetPassErrorNum(id);
+    }
+
+    @Override
+    public List<User> exportAll() {
+        List<User> users = baseMapper.selectList(null);
+        users.stream().forEach(user ->{
+            String orgId = user.getOrgId();
+            Org id1 = orgService.getById(orgId);
+            user.setOrgId(id1.getName());
+            String stationId = user.getStationId();
+            Station id2 = stationService.getById(stationId);
+            user.setStationId(id2.getName());
+        });
+        return users;
     }
 
     @Override

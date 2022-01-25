@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.itheima.pinda.base.BaseController;
 import com.itheima.pinda.base.R;
 import com.itheima.pinda.base.entity.SuperEntity;
+import com.itheima.pinda.common.utils.ExcelUtils;
 import com.itheima.pinda.database.mybatis.conditions.Wraps;
 import com.itheima.pinda.database.mybatis.conditions.query.LbqWrapper;
 import com.itheima.pinda.dozer.DozerUtils;
@@ -21,6 +22,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 @Slf4j
@@ -43,10 +46,10 @@ public class PoliticalInfoController extends BaseController {
         wrapper.like(PoliticalInfo::getName, data.getName())
                 .geHeader(PoliticalInfo::getCreateTime, data.getStartCreateTime())
                 .leFooter(PoliticalInfo::getLastCrawlTime, data.getEndCreateTime())
-                .like(PoliticalInfo::getCat,data.getCat())
-                .like(PoliticalInfo::getTheme,data.getTheme())
+                .like(PoliticalInfo::getCat, data.getCat())
+                .like(PoliticalInfo::getTheme, data.getTheme())
                 .orderByDesc(PoliticalInfo::getLastCrawlTime);
-        politicalInfoService.page(page,wrapper);
+        politicalInfoService.page(page, wrapper);
         return success(page);
     }
 
@@ -75,8 +78,28 @@ public class PoliticalInfoController extends BaseController {
     @SysLog("删除素材信息")
     @DeleteMapping
     public R<Boolean> delete(@RequestParam("ids[]") List<Long> ids) {
-        log.info("正在删除id为{}的素材",ids);
+        log.info("正在删除id为{}的素材", ids);
         politicalInfoService.removeByIds(ids);
         return success();
+    }
+
+    @PostMapping(value = "/export", produces = "application/octet-stream")
+    @ApiOperation(value = "导出", produces = "application/octet-stream", response = PoliticalInfo.class)
+    public void exports(HttpServletResponse response,
+                        @RequestBody PoliticalInfo politicalInfo) {
+        log.info("============="+politicalInfo.getName());
+        log.info("============="+politicalInfo.getTheme());
+        log.info("============="+politicalInfo.getCat());
+        List<PoliticalInfo> data = politicalInfoService.exportAll(politicalInfo);
+        response.setCharacterEncoding("UTF-8");
+//        response.setContentType("application/ms-excel");
+        response.setHeader("content-type", "application/octet-stream");
+        String fileName = "数据-" + "素材信息" + ".xls";
+        try {
+            fileName = java.net.URLEncoder.encode(fileName, "UTF-8"); // 这句很重要，不然文件名为乱码
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        ExcelUtils.exportExcel(data, "花名册", "素材信息", PoliticalInfo.class, fileName, response);
     }
 }

@@ -15,6 +15,27 @@
     <description>权限认证服务启动模块</description>
 
     <dependencies>
+<!--        &lt;!&ndash;excel 导出工具类&ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>cn.afterturn</groupId>-->
+<!--            <artifactId>easypoi-spring-boot-starter</artifactId>-->
+<!--            <version>4.2.0</version>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>cn.afterturn</groupId>-->
+<!--            <artifactId>easypoi-base</artifactId>-->
+<!--            <version>4.2.0</version>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>cn.afterturn</groupId>-->
+<!--            <artifactId>easypoi-web</artifactId>-->
+<!--            <version>4.2.0</version>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>cn.afterturn</groupId>-->
+<!--            <artifactId>easypoi-annotation</artifactId>-->
+<!--            <version>4.2.0</version>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>com.itheima</groupId>
             <artifactId>pd-auth-entity</artifactId>

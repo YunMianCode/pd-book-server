@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 import javax.validation.constraints.NotEmpty;
 
+import cn.afterturn.easypoi.excel.annotation.Excel;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.itheima.pinda.authority.enumeration.auth.Sex;
@@ -49,6 +50,7 @@ public class User extends Entity<Long> {
     @NotEmpty(message = "账号不能为空")
     @Length(max = 30, message = "账号长度不能超过30")
     @TableField(value = "account", condition = LIKE)
+    @Excel(name = "账户")
     private String account;
 
     /**
@@ -58,6 +60,7 @@ public class User extends Entity<Long> {
     @NotEmpty(message = "姓名不能为空")
     @Length(max = 50, message = "姓名长度不能超过50")
     @TableField(value = "name", condition = LIKE)
+    @Excel(name = "姓名")
     private String name;
 
     /**
@@ -66,6 +69,7 @@ public class User extends Entity<Long> {
      */
     @ApiModelProperty(value = "组织ID")
     @TableField("org_id")
+    @Excel(name = "组织ID")
     private String orgId;
 
     /**
@@ -74,6 +78,7 @@ public class User extends Entity<Long> {
      */
     @ApiModelProperty(value = "岗位ID")
     @TableField("station_id")
+    @Excel(name = "岗位ID")
     private String stationId;
 
     /**
@@ -82,6 +87,7 @@ public class User extends Entity<Long> {
     @ApiModelProperty(value = "邮箱")
     @Length(max = 255, message = "邮箱长度不能超过255")
     @TableField(value = "email", condition = LIKE)
+    @Excel(name = "邮箱")
     private String email;
 
     /**
@@ -90,6 +96,7 @@ public class User extends Entity<Long> {
     @ApiModelProperty(value = "手机")
     @Length(max = 20, message = "手机长度不能超过20")
     @TableField(value = "mobile", condition = LIKE)
+    @Excel(name = "联系电话")
     private String mobile;
 
     /**
@@ -98,6 +105,7 @@ public class User extends Entity<Long> {
      */
     @ApiModelProperty(value = "性别")
     @TableField("sex")
+    @Excel(name = "性别")
     private Sex sex;
 
     /**
@@ -105,6 +113,7 @@ public class User extends Entity<Long> {
      */
     @ApiModelProperty(value = "启用状态 1启用 0禁用")
     @TableField("status")
+    @Excel(name = "状态")
     private Boolean status;
 
     /**
@@ -122,6 +131,7 @@ public class User extends Entity<Long> {
     @ApiModelProperty(value = "工作描述")
     @Length(max = 255, message = "工作描述长度不能超过255")
     @TableField(value = "work_describe", condition = LIKE)
+    @Excel(name = "工作描述")
     private String workDescribe;
 
     /**
@@ -129,6 +139,7 @@ public class User extends Entity<Long> {
      */
     @ApiModelProperty(value = "最后一次输错密码时间")
     @TableField("password_error_last_time")
+    @Excel(name = "最后一次输错密码时间")
     private LocalDateTime passwordErrorLastTime;
 
     /**
@@ -136,6 +147,7 @@ public class User extends Entity<Long> {
      */
     @ApiModelProperty(value = "密码错误次数")
     @TableField("password_error_num")
+    @Excel(name = "密码错误次数")
     private Integer passwordErrorNum;
 
     /**

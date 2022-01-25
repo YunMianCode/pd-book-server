@@ -1,4 +1,5 @@
 package com.itheima.pinda.authority.controller.auth;
+
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.itheima.pinda.authority.dto.auth.*;
 import com.itheima.pinda.authority.entity.auth.Role;
@@ -12,6 +13,7 @@ import com.itheima.pinda.authority.entity.core.Station;
 import com.itheima.pinda.base.BaseController;
 import com.itheima.pinda.base.R;
 import com.itheima.pinda.base.entity.SuperEntity;
+import com.itheima.pinda.common.utils.ExcelUtils;
 import com.itheima.pinda.database.mybatis.conditions.Wraps;
 import com.itheima.pinda.database.mybatis.conditions.query.LbqWrapper;
 import com.itheima.pinda.dozer.DozerUtils;
@@ -30,11 +32,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
+
 /**
  * 前端控制器
  * 用户
@@ -55,6 +60,7 @@ public class UserController extends BaseController {
     private StationService stationService;
     @Autowired
     private DozerUtils dozer;
+
     /**
      * 分页查询用户
      */
@@ -90,16 +96,16 @@ public class UserController extends BaseController {
         List<User> records = page.getRecords();
         List<User> newList = new ArrayList<>();
         Iterator<User> iterator = records.iterator();
-        while (iterator.hasNext()){
+        while (iterator.hasNext()) {
             User tmp = iterator.next();
             String orgId = tmp.getOrgId();
             Org org = orgService.getById(orgId);
             String orgId1 = tmp.getOrgId();
-            tmp.setOrgId(org.getName() +"-"+orgId1);
+            tmp.setOrgId(org.getName() + "-" + orgId1);
             String stationId = tmp.getStationId();
             Station station = stationService.getById(stationId);
             String stationId1 = tmp.getStationId();
-            tmp.setStationId(station.getName() +"-"+stationId1);
+            tmp.setStationId(station.getName() + "-" + stationId1);
             newList.add(tmp);
         }
         page.setRecords(newList);
@@ -216,6 +222,7 @@ public class UserController extends BaseController {
 
     /**
      * 查询角色的已关联用户
+     *
      * @param roleId  角色id
      * @param keyword 账号account或名称name
      */
@@ -225,5 +232,22 @@ public class UserController extends BaseController {
         List<User> list = userService.findUserByRoleId(roleId, keyword);
         List<Long> idList = list.stream().mapToLong(User::getId).boxed().collect(Collectors.toList());
         return success(UserRoleDTO.builder().idList(idList).userList(list).build());
+    }
+
+    @GetMapping(value = "/export",produces = "application/octet-stream")
+    @ApiOperation(value = "导出", produces = "application/octet-stream", response = User.class)
+    public void exports(HttpServletResponse response) {
+        List<User> data = userService.exportAll();
+        response.setCharacterEncoding("UTF-8");
+//        response.setContentType("application/ms-excel");
+        response.setHeader("content-type","application/octet-stream");
+        String fileName = "数据-" + "系统注册用户信息" + ".xls";
+        try {
+            fileName = java.net.URLEncoder.encode(fileName, "UTF-8"); // 这句很重要，不然文件名为乱码
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+//        (personList,"花名册","草帽一伙",Person.class,"海贼王.xls",response);
+        ExcelUtils.exportExcel(data, "花名册", "系统注册用户信息", User.class, fileName, response);
     }
 }

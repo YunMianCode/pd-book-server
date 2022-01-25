@@ -2,6 +2,8 @@ package com.itheima.pinda.authority.biz.service.auth;
 import java.util.List;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.itheima.pinda.authority.dto.auth.UserExportDTO;
+import com.itheima.pinda.authority.dto.auth.UserPageDTO;
 import com.itheima.pinda.authority.dto.auth.UserUpdatePasswordDTO;
 import com.itheima.pinda.authority.entity.auth.User;
 import com.itheima.pinda.database.mybatis.conditions.query.LbqWrapper;
@@ -67,4 +69,7 @@ public interface UserService extends IService<User> {
      * 重置密码错误次数
      */
     int resetPassErrorNum(Long id);
+
+    List<User> exportAll();
+
 }

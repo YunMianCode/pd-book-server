@@ -33,4 +33,5 @@ public interface RoleMapper extends BaseMapper<Role> {
      * @return
      */
     List<Long> findUserIdByCode(@Param("codes") String[] codes);
+
 }

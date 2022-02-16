@@ -7,9 +7,6 @@ import com.itheima.pinda.user.feign.UserQuery;
 import com.itheima.pinda.user.feign.UserResolveApi;
 import com.itheima.pinda.user.model.SysUser;
 import com.itheima.pinda.utils.NumberHelper;
-
-import com.itheima.pinda.user.annotation.LoginUser;
-import com.itheima.pinda.user.model.SysUser;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
@@ -31,7 +28,7 @@ public class ContextArgumentResolver implements HandlerMethodArgumentResolver {
     }
 
     /**
-     * 入参筛选
+     * 入参筛选,判断该请求是否需要进行处理
      *
      * @param mp 参数集合
      * @return 格式化后的参数
@@ -47,6 +44,7 @@ public class ContextArgumentResolver implements HandlerMethodArgumentResolver {
      * @param nativeWebRequest      web相关
      * @param webDataBinderFactory  入参解析
      * @return 包装对象
+     * 如果需要处理，进行处理操作
      */
     @Override
     public Object resolveArgument(MethodParameter methodParameter,

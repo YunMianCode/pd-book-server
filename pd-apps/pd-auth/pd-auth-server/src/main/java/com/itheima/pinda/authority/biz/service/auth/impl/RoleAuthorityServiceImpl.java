@@ -93,7 +93,7 @@ public class RoleAuthorityServiceImpl extends ServiceImpl<RoleAuthorityMapper, R
         }
         super.saveBatch(list);
 
-//         清理
+        //清理掉用户之前所具有权限的缓存，下次调用将会重新获取用户锁具有的权限
         List<Long> userIdList = userRoleService.listObjs(Wraps.<UserRole>lbQ().select(UserRole::getUserId).eq(UserRole::getRoleId, dto.getRoleId()),
                 (userId) -> NumberHelper.longValueOf0(userId));
         userIdList.stream().collect(Collectors.toSet()).forEach((userId) -> {

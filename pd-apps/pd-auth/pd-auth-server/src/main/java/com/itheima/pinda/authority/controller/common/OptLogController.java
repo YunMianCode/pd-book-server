@@ -8,6 +8,8 @@ import com.itheima.pinda.base.R;
 import com.itheima.pinda.database.mybatis.conditions.Wraps;
 import com.itheima.pinda.database.mybatis.conditions.query.LbqWrapper;
 import com.itheima.pinda.log.annotation.SysLog;
+import com.itheima.pinda.user.annotation.LoginUser;
+import com.itheima.pinda.user.model.SysUser;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -42,8 +44,9 @@ public class OptLogController extends BaseController {
     })
     @ApiOperation(value = "分页查询系统操作日志", notes = "分页查询系统操作日志")
     @GetMapping("/page")
-    public R<IPage<OptLog>> page(OptLog data) {
+    public R<IPage<OptLog>> page(@LoginUser(isFull = true) SysUser sysUser, OptLog data) {
         IPage<OptLog> page = getPage();
+        log.info(sysUser.toString());
         // 构建值不为null的查询条件
         LbqWrapper<OptLog> query = Wraps.lbQ(data)
                 .leFooter(OptLog::getCreateTime, getEndCreateTime())

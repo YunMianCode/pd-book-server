@@ -234,13 +234,13 @@ public class UserController extends BaseController {
         return success(UserRoleDTO.builder().idList(idList).userList(list).build());
     }
 
-    @GetMapping(value = "/export",produces = "application/octet-stream")
+    @GetMapping(value = "/export", produces = "application/octet-stream")
     @ApiOperation(value = "导出", produces = "application/octet-stream", response = User.class)
     public void exports(HttpServletResponse response) {
         List<User> data = userService.exportAll();
         response.setCharacterEncoding("UTF-8");
 //        response.setContentType("application/ms-excel");
-        response.setHeader("content-type","application/octet-stream");
+        response.setHeader("content-type", "application/octet-stream");
         String fileName = "数据-" + "系统注册用户信息" + ".xls";
         try {
             fileName = java.net.URLEncoder.encode(fileName, "UTF-8"); // 这句很重要，不然文件名为乱码

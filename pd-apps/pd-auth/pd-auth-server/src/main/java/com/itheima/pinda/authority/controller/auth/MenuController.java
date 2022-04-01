@@ -3,7 +3,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.itheima.pinda.auth.client.properties.AuthClientProperties;
 import com.itheima.pinda.auth.server.utils.JwtTokenServerUtils;
 import com.itheima.pinda.auth.utils.JwtUserInfo;
 import com.itheima.pinda.authority.dto.auth.MenuSaveDTO;

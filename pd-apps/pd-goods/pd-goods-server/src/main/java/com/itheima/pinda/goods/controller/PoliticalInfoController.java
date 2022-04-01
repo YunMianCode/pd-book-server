@@ -48,6 +48,7 @@ public class PoliticalInfoController extends BaseController {
                 .leFooter(PoliticalInfo::getLastCrawlTime, data.getEndCreateTime())
                 .like(PoliticalInfo::getCat, data.getCat())
                 .like(PoliticalInfo::getTheme, data.getTheme())
+                .isNotNull(PoliticalInfo::getName)
                 .orderByDesc(PoliticalInfo::getLastCrawlTime);
         politicalInfoService.page(page, wrapper);
         return success(page);

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itheima.pinda.goods.dao.BookInfoMapper">
+
+
+    <select id="getTopFiveBooks" resultType="com.itheima.pinda.goods.VO.BookInfoTopFiveVo">
+        select cat ,count(*) as count
+        from book
+        group by cat
+        order by count desc
+        limit 5
+    </select>
+</mapper>

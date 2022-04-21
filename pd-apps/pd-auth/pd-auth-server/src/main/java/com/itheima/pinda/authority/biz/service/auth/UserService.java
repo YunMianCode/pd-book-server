@@ -1,4 +1,5 @@
 package com.itheima.pinda.authority.biz.service.auth;
+import java.util.HashMap;
 import java.util.List;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -6,6 +7,7 @@ import com.itheima.pinda.authority.dto.auth.UserExportDTO;
 import com.itheima.pinda.authority.dto.auth.UserPageDTO;
 import com.itheima.pinda.authority.dto.auth.UserUpdatePasswordDTO;
 import com.itheima.pinda.authority.entity.auth.User;
+import com.itheima.pinda.base.R;
 import com.itheima.pinda.database.mybatis.conditions.query.LbqWrapper;
 /**
  * 业务接口
@@ -72,4 +74,5 @@ public interface UserService extends IService<User> {
 
     List<User> exportAll();
 
+    Integer getUserCount();
 }

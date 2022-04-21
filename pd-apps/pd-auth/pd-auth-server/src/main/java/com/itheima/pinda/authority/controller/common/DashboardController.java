@@ -1,6 +1,8 @@
 package com.itheima.pinda.authority.controller.common;
 import java.util.HashMap;
 import java.util.Map;
+
+import com.itheima.pinda.authority.biz.service.auth.UserService;
 import com.itheima.pinda.authority.biz.service.common.LoginLogService;
 import com.itheima.pinda.base.BaseController;
 import com.itheima.pinda.base.R;
@@ -26,6 +28,7 @@ public class DashboardController extends BaseController {
     private LoginLogService loginLogService;
     @Autowired
     private IdGenerate<Long> idGenerate;
+
     /**
      * 最近10天访问记录
      */

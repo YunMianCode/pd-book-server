@@ -1,6 +1,7 @@
 package com.itheima.pinda.authority.controller.auth;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.itheima.pinda.authority.biz.service.common.OptLogService;
 import com.itheima.pinda.authority.dto.auth.*;
 import com.itheima.pinda.authority.entity.auth.Role;
 import com.itheima.pinda.authority.entity.auth.User;
@@ -34,10 +35,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -58,6 +56,8 @@ public class UserController extends BaseController {
     private RoleService roleService;
     @Autowired
     private StationService stationService;
+    @Autowired
+    private OptLogService optLogService;
     @Autowired
     private DozerUtils dozer;
 
@@ -232,6 +232,20 @@ public class UserController extends BaseController {
         List<User> list = userService.findUserByRoleId(roleId, keyword);
         List<Long> idList = list.stream().mapToLong(User::getId).boxed().collect(Collectors.toList());
         return success(UserRoleDTO.builder().idList(idList).userList(list).build());
+    }
+
+    @ApiOperation(value = "获取本周访问量",notes = "获取本周访问量")
+    @GetMapping(value = "VisitOfWeek")
+    public R<HashMap<String,Integer>> getVisitOfWeek(){
+        HashMap<String, Integer> visitOfWeek = optLogService.getVisitOfWeek();
+        return success(visitOfWeek);
+    }
+
+    @ApiOperation(value = "获取用户总数",notes = "获取用户总数")
+    @GetMapping(value = "getUserCount")
+    public R<Integer> getUserCount(){
+        Integer userCount = userService.getUserCount();
+        return success(userCount);
     }
 
     @GetMapping(value = "/export", produces = "application/octet-stream")

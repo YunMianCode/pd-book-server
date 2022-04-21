@@ -19,7 +19,11 @@ public class IgnoreTokenConfig {
             "/**/v2/api-docs/**",
             "/**/v2/api-docs-ext/**",
             "/**/swagger-resources/**",
-            "/menu/router/**"
+            "/menu/router/**",
+            "/getTopFiveBooks",
+            "/bookInfo/getTopFiveBooks",
+            "/getBookCount",
+            "/bookInfo/getBookCount"
     );
     private static final AntPathMatcher ANT_PATH_MATCHER = new AntPathMatcher();
 

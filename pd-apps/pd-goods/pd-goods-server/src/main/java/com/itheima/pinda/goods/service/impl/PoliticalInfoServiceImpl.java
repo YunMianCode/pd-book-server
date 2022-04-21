@@ -1,12 +1,11 @@
 package com.itheima.pinda.goods.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.itheima.pinda.goods.dao.BookInfoMapper;
+import com.itheima.pinda.base.entity.SuperEntity;
 import com.itheima.pinda.goods.dao.PoliticalInfoMapper;
-import com.itheima.pinda.goods.entity.BookInfo;
 import com.itheima.pinda.goods.entity.PoliticalInfo;
-import com.itheima.pinda.goods.service.BookInfoService;
 import com.itheima.pinda.goods.service.PoliticalInfoService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +16,9 @@ import java.util.List;
 @Slf4j
 @Service
 public class PoliticalInfoServiceImpl extends ServiceImpl<PoliticalInfoMapper, PoliticalInfo> implements PoliticalInfoService {
+
+    @Autowired
+    private PoliticalInfoMapper politicalInfoMapper;
 
     @Override
     public List<PoliticalInfo> exportAll(PoliticalInfo politicalInfo) {
@@ -62,5 +64,23 @@ public class PoliticalInfoServiceImpl extends ServiceImpl<PoliticalInfoMapper, P
         return users;
     }
 
+    @Override
+    public void viewPolitical(Integer politicalId) {
+        PoliticalInfo politicalInfo = baseMapper.selectOne(new LambdaQueryWrapper<PoliticalInfo>().eq(SuperEntity::getId, politicalId));
+        int count = politicalInfo.getCount();
+        politicalInfo.setCount(++count);
+        baseMapper.updateById(politicalInfo);
+    }
 
+    @Override
+    public int getPoliticalCount() {
+        List<PoliticalInfo> politicalInfos = baseMapper.selectList(null);
+        return politicalInfos.size();
+    }
+
+    @Override
+    public List<PoliticalInfo> getViewTopFive() {
+        List<PoliticalInfo> topFive = politicalInfoMapper.getViewTopFive();
+        return topFive;
+    }
 }

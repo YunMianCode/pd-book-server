@@ -9,6 +9,7 @@ import com.itheima.pinda.base.entity.SuperEntity;
 import com.itheima.pinda.database.mybatis.conditions.Wraps;
 import com.itheima.pinda.database.mybatis.conditions.query.LbqWrapper;
 import com.itheima.pinda.dozer.DozerUtils;
+import com.itheima.pinda.goods.VO.BookInfoTopFiveVo;
 import com.itheima.pinda.goods.dto.BookInfoPageDTO;
 import com.itheima.pinda.goods.dto.BookInfoUpdateDTO;
 import com.itheima.pinda.goods.entity.BookInfo;
@@ -34,9 +35,9 @@ public class BookInfoController extends BaseController {
     @Autowired
     private BookInfoService bookInfoService;
 
-    @ApiOperation(value = "查询商品信息", notes = "查询商品信息")
+    @ApiOperation(value = "查询图书信息", notes = "查询图书信息")
     @GetMapping("/page")
-    @SysLog("查询商品信息")
+    @SysLog("查询图书信息")
     public R<IPage<BookInfo>> list(BookInfoPageDTO data) {
         Page<BookInfo> page = getPage();
         LbqWrapper<BookInfo> wrapper = Wraps.lbQ();
@@ -77,5 +78,22 @@ public class BookInfoController extends BaseController {
         log.info("正在删除id为{}的图书",ids);
         bookInfoService.removeByIds(ids);
         return success();
+    }
+
+    @ApiOperation(value = "获取图书分类前五名", notes = "获取图书分类前五名")
+    @SysLog("获取图书分类排名")
+    @GetMapping("getTopFiveBooks")
+    public R<List<BookInfoTopFiveVo>> getTopFiveBooks(){
+        log.info("正在获取图书前五名");
+        List<BookInfoTopFiveVo> topFiveBooks = bookInfoService.getTopFiveBooks();
+        return success(topFiveBooks);
+    }
+
+    @ApiOperation(value = "获取图书总量",notes = "获取图书总量")
+    @SysLog("获取图书总量")
+    @GetMapping("getBookCount")
+    public R<Integer> getUserCount(){
+        Integer bookCount = bookInfoService.getBookCount();
+        return success(bookCount);
     }
 }

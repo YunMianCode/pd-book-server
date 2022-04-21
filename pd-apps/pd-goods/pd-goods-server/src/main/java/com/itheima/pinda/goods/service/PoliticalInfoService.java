@@ -10,4 +10,9 @@ public interface PoliticalInfoService extends IService<PoliticalInfo> {
 
     List<PoliticalInfo> exportAll(PoliticalInfo politicalInfo);
 
+    void viewPolitical(Integer politicalId);
+
+    List<PoliticalInfo> getViewTopFive();
+
+    int getPoliticalCount();
 }

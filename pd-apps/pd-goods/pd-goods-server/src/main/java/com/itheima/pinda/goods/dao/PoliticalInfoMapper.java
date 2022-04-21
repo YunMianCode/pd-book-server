@@ -4,6 +4,7 @@ import ch.qos.logback.classic.spi.PlatformInfo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.itheima.pinda.goods.entity.BookInfo;
 import com.itheima.pinda.goods.entity.PoliticalInfo;
+import org.bouncycastle.pqc.jcajce.provider.qtesla.SignatureSpi;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -13,4 +14,5 @@ public interface PoliticalInfoMapper extends BaseMapper<PoliticalInfo> {
 
     List<PoliticalInfo> exportByKey(PoliticalInfo politicalInfo);
 
+    List<PoliticalInfo> getViewTopFive();
 }

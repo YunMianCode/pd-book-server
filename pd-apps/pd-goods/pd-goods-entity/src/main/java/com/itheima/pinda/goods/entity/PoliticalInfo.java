@@ -30,6 +30,9 @@ public class PoliticalInfo extends Entity<Long> {
     @Excel(name = "分类")
     private String cat;
 
+    @Excel(name = "查看数量")
+    private int count;
+
     @Excel(name = "详细分类")
     private String detailCat;
 

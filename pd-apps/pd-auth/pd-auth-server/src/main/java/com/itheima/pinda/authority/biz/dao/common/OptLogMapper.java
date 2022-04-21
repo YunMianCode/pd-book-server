@@ -6,6 +6,8 @@ import com.itheima.pinda.authority.entity.common.OptLog;
 import com.itheima.pinda.authority.entity.common.OptLog;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * <p>
  * Mapper 接口
@@ -15,5 +17,7 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface OptLogMapper extends BaseMapper<OptLog> {
+
+    List<String> getVisitOfWeek(String time);
 
 }

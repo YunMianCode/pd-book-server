@@ -17,4 +17,11 @@
         </if>
     </select>
 
+    <select id="getViewTopFive" resultType="java.util.Map">
+        select name,count
+        from political
+        order by count desc
+        limit 5
+    </select>
+
 </mapper>

@@ -103,4 +103,25 @@ public class PoliticalInfoController extends BaseController {
         }
         ExcelUtils.exportExcel(data, "花名册", "素材信息", PoliticalInfo.class, fileName, response);
     }
+
+    @GetMapping("viewPoliticalInfo")
+    @ApiOperation("查看素材")
+    public void viewPolitical(@RequestParam Integer politicalId){
+        politicalInfoService.viewPolitical(politicalId);
+    }
+
+    @GetMapping("getViewTopFive")
+    @ApiOperation("获取查看量前五")
+    public R<List<PoliticalInfo>> getViewTopFive(){
+        List<PoliticalInfo> viewTopFive = politicalInfoService.getViewTopFive();
+        return success(viewTopFive);
+    }
+
+    @GetMapping("getPoliticalCount")
+    @SysLog("获取素材总量")
+    @ApiOperation("获取素材总量")
+    public R<Integer> getPoliticalCount(){
+        int politicalCount = politicalInfoService.getPoliticalCount();
+        return success(politicalCount);
+    }
 }

@@ -1,8 +1,10 @@
 package com.itheima.pinda.authority.biz.service.auth.impl;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.additional.query.impl.LambdaQueryChainWrapper;
@@ -19,10 +21,14 @@ import com.itheima.pinda.authority.entity.auth.User;
 import com.itheima.pinda.authority.entity.auth.UserRole;
 import com.itheima.pinda.authority.entity.core.Org;
 import com.itheima.pinda.authority.entity.core.Station;
+import com.itheima.pinda.authority.util.DateUtil;
+import com.itheima.pinda.base.R;
 import com.itheima.pinda.database.mybatis.conditions.Wraps;
 import com.itheima.pinda.database.mybatis.conditions.query.LbqWrapper;
+import com.itheima.pinda.user.model.SysUser;
 import com.itheima.pinda.utils.BizAssert;
 import cn.hutool.core.util.StrUtil;
+import com.itheima.pinda.utils.DateUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,6 +71,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             user.setStationId(id2.getName());
         });
         return users;
+    }
+
+    @Override
+    public Integer getUserCount() {
+        List<User> userCount = baseMapper.selectList(null);
+        return userCount.size();
     }
 
     @Override

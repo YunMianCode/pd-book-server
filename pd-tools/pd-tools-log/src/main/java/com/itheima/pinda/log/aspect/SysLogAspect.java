@@ -78,23 +78,15 @@ public class SysLogAspect {
                     controllerDescription = tags[0];
                 }
             }
-
             String controllerMethodDescription = LogUtil.getControllerMethodDescription(joinPoint);
             if (StrUtil.isEmpty(controllerDescription)) {
                 sysLog.setDescription(controllerMethodDescription);
             } else {
                 sysLog.setDescription(controllerDescription + "-" + controllerMethodDescription);
             }
-
-            // 类名
             sysLog.setClassPath(joinPoint.getTarget().getClass().getName());
-            //获取执行的方法名
             sysLog.setActionMethod(joinPoint.getSignature().getName());
-
-
-            // 参数
             Object[] args = joinPoint.getArgs();
-
             String strArgs = "";
             HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
             try {
@@ -109,7 +101,6 @@ public class SysLogAspect {
                 }
             }
             sysLog.setParams(getText(strArgs));
-
             if (request != null) {
                 sysLog.setRequestIp(ServletUtil.getClientIP(request));
                 sysLog.setRequestUri(URLUtil.getPath(request.getRequestURI()));
@@ -117,7 +108,6 @@ public class SysLogAspect {
                 sysLog.setUa(StrUtil.sub(request.getHeader("user-agent"), 0, 500));
             }
             sysLog.setStartTime(LocalDateTime.now());
-
             THREAD_LOCAL.set(sysLog);
         });
     }
